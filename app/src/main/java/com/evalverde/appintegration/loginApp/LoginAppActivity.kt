@@ -9,7 +9,6 @@ import com.evalverde.appintegration.databinding.ActivityLoginappBinding
 import com.evalverde.appintegration.loginApp.Model.LoginAppViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class LoginAppActivity : AppCompatActivity(){
 
     private lateinit var loginAppViewModel: LoginAppViewModel
@@ -20,7 +19,7 @@ class LoginAppActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         loginAppViewModel = ViewModelProvider(this).get(LoginAppViewModel::class.java)
-        loginAppViewModel.loginResult.observe(this, Observer { loginResult ->
+        loginAppViewModel.loginResult.observe(this@LoginAppActivity, Observer { loginResult ->
             if(loginResult.isValid == true){
                 binding.usernameLayout.error = null
                 binding.passwordLayout.error = null
