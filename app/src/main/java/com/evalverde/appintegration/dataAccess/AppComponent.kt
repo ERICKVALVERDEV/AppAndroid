@@ -1,4 +1,4 @@
-package com.evalverde.appintegration.DataAccess
+package com.evalverde.appintegration.dataAccess
 
 import android.app.Application
 import dagger.Component

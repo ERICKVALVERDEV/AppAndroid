@@ -1,15 +1,15 @@
-package com.evalverde.appintegration.DataAccess
+package com.evalverde.appintegration.dataAccess
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.evalverde.appintegration.DataAccess.Interface.IUsuarioLocalDao
-import com.evalverde.appintegration.DataAccess.Model.UsuarioEntity
+import com.evalverde.appintegration.dataAccess.interfaceDuo.IUsuarioLocalDao
+import com.evalverde.appintegration.dataAccess.model.UsuarioEntity
 
 @Database(entities = [UsuarioEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun iUsuarioLocalDao():IUsuarioLocalDao
+    abstract fun iUsuarioLocalDao(): IUsuarioLocalDao
     companion object{
         @Volatile
         private var INSTANCE: AppDatabase? = null

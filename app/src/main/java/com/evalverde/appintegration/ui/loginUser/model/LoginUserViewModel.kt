@@ -1,4 +1,4 @@
-package com.evalverde.appintegration.loginUser.model
+package com.evalverde.appintegration.ui.loginUser.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

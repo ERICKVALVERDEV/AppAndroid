@@ -1,7 +1,7 @@
-package com.evalverde.appintegration.DataAccess.Repository
+package com.evalverde.appintegration.dataAccess.Repository
 
-import com.evalverde.appintegration.DataAccess.Interface.IUsuarioLocalDao
-import com.evalverde.appintegration.DataAccess.Model.UsuarioEntity
+    import com.evalverde.appintegration.dataAccess.interfaceDuo.IUsuarioLocalDao
+import com.evalverde.appintegration.dataAccess.model.UsuarioEntity
 import javax.inject.Inject
 
 class UsuarioLocalRepository @Inject constructor(private val usuarioLocal: IUsuarioLocalDao?) {

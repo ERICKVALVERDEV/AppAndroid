@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.evalverde.appintegration.DataAccess.Repository.UsuarioLocalRepository
+import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
 import com.evalverde.appintegration.databinding.ActivityLoginappBinding
 import com.evalverde.appintegration.loginApp.model.LoginAppViewModel
 import com.evalverde.appintegration.loginApp.model.LoginAppViewModelFactory

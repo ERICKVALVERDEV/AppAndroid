@@ -1,8 +1,8 @@
-package com.evalverde.appintegration.DataAccess
+package com.evalverde.appintegration.dataAccess
 
 import android.content.Context
-import com.evalverde.appintegration.DataAccess.Interface.IUsuarioLocalDao
-import com.evalverde.appintegration.DataAccess.Repository.UsuarioLocalRepository
+import com.evalverde.appintegration.dataAccess.interfaceDuo.IUsuarioLocalDao
+import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

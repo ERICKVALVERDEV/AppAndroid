@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".loginUser.LoginUser">
+    tools:context=".ui.loginUser.LoginUser"
+    android:background="@color/colorFondo">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,17 +21,17 @@
         android:gravity="center_vertical"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
-        android:background="#F5F5F5"
+        android:layout_margin="20dp"
+        android:background="@color/colorFondo"
         >
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/logologin"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
             android:contentDescription="Logo"
-            android:layout_gravity="center_horizontal"/>
+            android:src="@drawable/logo_ipsp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameLayout"
@@ -61,7 +62,7 @@
 
         <Button
             android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Ingresar"
             android:layout_gravity="center"

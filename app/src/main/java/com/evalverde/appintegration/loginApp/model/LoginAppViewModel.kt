@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.evalverde.appintegration.DataAccess.Repository.UsuarioLocalRepository
+import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
 
 class LoginAppViewModel constructor(private val usuarioLocalRepository: UsuarioLocalRepository) : ViewModel() {
 

@@ -1,4 +1,4 @@
-package com.evalverde.appintegration.loginUser
+package com.evalverde.appintegration.ui.loginUser
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.evalverde.appintegration.databinding.ActivityLoginUserBinding
-import com.evalverde.appintegration.loginUser.model.LoginUserViewModel
+import com.evalverde.appintegration.ui.loginUser.model.LoginUserViewModel
 
 class LoginUser : AppCompatActivity() {
     private lateinit var binding: ActivityLoginUserBinding
