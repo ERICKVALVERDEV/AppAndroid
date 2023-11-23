@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.evalverde.appintegration.DataAccess.Repository.UsuarioLocalRepository
 import com.evalverde.appintegration.databinding.ActivityLoginappBinding
-import com.evalverde.appintegration.loginApp.Model.LoginAppViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import com.evalverde.appintegration.loginApp.model.LoginAppViewModel
+import com.evalverde.appintegration.loginApp.model.LoginAppViewModelFactory
 
 class LoginAppActivity : AppCompatActivity(){
 
@@ -18,8 +19,12 @@ class LoginAppActivity : AppCompatActivity(){
         binding = ActivityLoginappBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loginAppViewModel = ViewModelProvider(this).get(LoginAppViewModel::class.java)
-        loginAppViewModel.loginResult.observe(this@LoginAppActivity, Observer { loginResult ->
+        val userCredentialRepository = UsuarioLocalRepository(null)
+        val viewModelFactory = LoginAppViewModelFactory(userCredentialRepository)
+        loginAppViewModel = ViewModelProvider(this, LoginAppViewModelFactory(userCredentialRepository)).get(LoginAppViewModel::class.java)
+        loginAppViewModel.loginResult.observe(this@LoginAppActivity, Observer {
+            val loginResult = it ?: return@Observer
+
             if(loginResult.isValid == true){
                 binding.usernameLayout.error = null
                 binding.passwordLayout.error = null
@@ -28,6 +33,7 @@ class LoginAppActivity : AppCompatActivity(){
                 binding.passwordLayout.error = loginResult.errorText
             }
         })
+
         loginAppViewModel.userError.observe(this, Observer { error -> binding.usernameLayout.error = error })
         loginAppViewModel.passwordError.observe(this, Observer { error -> binding.passwordLayout.error = error })
 

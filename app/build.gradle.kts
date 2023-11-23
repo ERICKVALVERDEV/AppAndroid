@@ -65,6 +65,9 @@ dependencies {
     //Dependencia para la inyeccion de dependencia
     implementation("com.google.dagger:hilt-android:2.44")
     ksp("com.google.dagger:hilt-android-compiler:2.44")
+
+    //retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 }
 // Allow references to generated code
 kapt {

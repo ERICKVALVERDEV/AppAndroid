@@ -1,15 +1,14 @@
-package com.evalverde.appintegration.loginApp.Model
+package com.evalverde.appintegration.loginUser.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.evalverde.appintegration.DataAccess.Repository.UsuarioLocalRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-@HiltViewModel
-class LoginAppViewModel  constructor(private val usuarioLocalRepository: UsuarioLocalRepository) : ViewModel() {
+import com.evalverde.appintegration.globalModel.ResultViewModel
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> get() = _loginResult
+class LoginUserViewModel : ViewModel(){
+
+    private val _loginResult = MutableLiveData<ResultViewModel>()
+    val loginResult: LiveData<ResultViewModel> get() = _loginResult
 
     private val _userError = MutableLiveData<String>()
     val userError: LiveData<String> get() = _userError
@@ -23,7 +22,7 @@ class LoginAppViewModel  constructor(private val usuarioLocalRepository: Usuario
         validatePassword(clave)
         if(!usuario.isBlank() && !clave.isBlank()){
             isLoginSuccesful = (usuario == "admin" && clave == "123")
-            _loginResult.value = LoginResult(isLoginSuccesful,"Credenciales incorrectas")
+            _loginResult.value = ResultViewModel(isLoginSuccesful,"Credenciales incorrectas")
         }
     }
 
