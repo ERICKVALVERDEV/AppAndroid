@@ -13,8 +13,8 @@ data class GenUsuario(var IdUsuario: Int,
                       var Clave: String,
                       var IdZona: Int,
                       var IdDepartamento: Int,
-                      var NombreDepartamento: Int,
+                      var NombreDepartamento: String,
                       var IdRol: Int,
-                      var NombreRol: Int,
-                      var Activo: Int,
-                      var UsuarioAd: Int,)
+                      var NombreRol: String,
+                      var Activo: Boolean,
+                      var UsuarioAd: String,)

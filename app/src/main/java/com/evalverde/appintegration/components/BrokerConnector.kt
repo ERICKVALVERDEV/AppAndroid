@@ -2,32 +2,41 @@ package com.evalverde.appintegration.components
 
 import com.evalverde.appintegration.components.HttpNetwork.Companion.GetApiServices
 import com.evalverde.appintegration.globalModel.JsonBrokenBody
-import com.evalverde.appintegration.globalModel.ResponseObject
+import com.evalverde.appintegration.globalModel.ResponseBroker
 
 import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
-class BrokerConnector{
+class BrokerConnector {
 
-    suspend inline fun <reified T> DoBusinessOperation(containerKey:String, targetComponent: String, method: String, vararg arguments: Any):T{
-        val resquest = JsonBrokenBody("", containerKey, targetComponent, method, Gson().toJson(arguments))
-        return DoJsonBrokerOperation("DoBusinessOperation",  resquest);
+    suspend inline fun <reified T> DoBusinessOperation(containerKey: String, targetComponent: String,
+        method: String, vararg arguments: Any ): T {
+        try {
+            val resquest = JsonBrokenBody("", containerKey, targetComponent, method, Gson().toJson(arguments))
+            return DoJsonBrokerOperation("DoBusinessOperation", resquest);
+        }catch (ex: Exception) {
+            throw ex
+        }
     }
 
-    suspend inline fun<reified T> DoJsonBrokerOperation(action: String,  request: JsonBrokenBody):T{
+    suspend inline fun <reified T> DoJsonBrokerOperation(action: String,request: JsonBrokenBody
+    ): T {
         val gson = Gson()
+        var bodyString = ""
         try {
-            val call: Response<ResponseObject> = GetApiServices().DoBusinessOperation(request)
-            if(call.isSuccessful()){
-                val resonseContent = call.body()?.toString()
-                val responseData = gson.fromJson(resonseContent,ResponseObject::class.java)
-                if(responseData != null){
-                    return gson.fromJson(responseData.JsonResponse,T::class.java)
+            val body = GetApiServices().DoBusinessOperation(request)
+
+            if (body != null && body!!.Exception == null) {
+                    bodyString = body.JsonResponse
+                }else{
+                    var except = body.Exception
+                    throw Exception(except.Message)
                 }
-            }else{
-                throw Exception("La llamada no emitió una respuesta.")
-            }
-        }catch (ex : Exception){
+
+            return gson.fromJson(bodyString, T::class.java)
+        } catch (ex: Exception) {
             ex.printStackTrace()
             throw ex
         }

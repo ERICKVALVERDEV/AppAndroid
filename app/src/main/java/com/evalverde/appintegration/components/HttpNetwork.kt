@@ -4,12 +4,13 @@ import com.google.gson.GsonBuilder
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-val URL_BASE: String = ""
+val URL_BASE: String = "http://172.16.11.20:9095/"
 lateinit var API_SERVICE:ApiServices
 class HttpNetwork{
     companion object{
@@ -31,20 +32,18 @@ class HttpNetwork{
                 .addInterceptor(logging)
                 .build()
 
-            if(API_SERVICE == null){
-
                 val gson = GsonBuilder()
                     .setLenient()
+                    .registerTypeAdapter(Call::class.java, CallTypeAdapter())
                     .create()
 
                 val retrofit = Retrofit.Builder()
                     .baseUrl(URL_BASE)
                     .addConverterFactory(GsonConverterFactory.create(gson))
+                    .client(httpClient)
                     .build()
 
-                API_SERVICE = retrofit.create(ApiServices::class.java)
-            }
-            return API_SERVICE
+            return retrofit.create(ApiServices::class.java)
         }
     }
 }

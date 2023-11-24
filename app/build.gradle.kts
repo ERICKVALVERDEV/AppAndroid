@@ -66,7 +66,8 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
-
+    //Corrutinas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     //Dependencia para la inyeccion de dependencia
     implementation("com.google.dagger:hilt-android:2.44")
     ksp("com.google.dagger:hilt-android-compiler:2.44")
