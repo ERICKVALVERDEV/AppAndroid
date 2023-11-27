@@ -1,15 +1,16 @@
 package com.evalverde.appintegration.ui.loginUser.model
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
+import com.evalverde.appintegration.dataAccess.interfaceDuo.IUsuarioLocalDao
 import com.evalverde.appintegration.globalModel.ResultViewModel
 import com.evalverde.appintegration.onlineClient.GenUsuarioClientOperation
+import com.evalverde.appintegration.onlineClient.model.GenUsuario
+import com.evalverde.appintegration.onlineClient.model.toOffline
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -51,7 +52,6 @@ class LoginUserViewModel : ViewModel() {
                 }
             }
         }
-
     }
 
     fun validateUser(usuario: String) {
@@ -60,6 +60,15 @@ class LoginUserViewModel : ViewModel() {
 
     fun validatePassword(password: String) {
         _passwordError.value = if (password.isBlank()) "Contraseña es Obligatorio" else null
+    }
+
+    fun saveLogin(genUsuario: GenUsuario){
+        //convertimos el modelo
+        val usuarioEntity = genUsuario.toOffline()
+        UsuarioLocalRepository(IUsuarioLocalDao).InsertUsuarioLocal(usuarioEntity)
+
+
+
     }
 
 }

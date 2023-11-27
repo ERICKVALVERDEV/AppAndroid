@@ -1,7 +1,6 @@
 package com.evalverde.appintegration.onlineClient.model
 
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
+import com.evalverde.appintegration.dataAccess.model.UsuarioEntity
 
 data class GenUsuario(var IdUsuario: Int,
                       var Identificacion: Int,
@@ -18,3 +17,6 @@ data class GenUsuario(var IdUsuario: Int,
                       var NombreRol: String,
                       var Activo: Boolean,
                       var UsuarioAd: String,)
+
+fun GenUsuario.toOffline() = UsuarioEntity(0,IdUsuario,Identificacion,CodigoUsuario,Nombres,Apellidos,Correo,NombreUsuario,
+    Clave,IdZona,IdDepartamento,NombreDepartamento,IdRol,NombreRol,Activo,UsuarioAd)
