@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
-import com.evalverde.appintegration.dataAccess.interfaceDuo.IUsuarioLocalDao
 import com.evalverde.appintegration.globalModel.ResultViewModel
 import com.evalverde.appintegration.onlineClient.GenUsuarioClientOperation
 import com.evalverde.appintegration.onlineClient.model.GenUsuario
@@ -13,6 +11,7 @@ import com.evalverde.appintegration.onlineClient.model.toOffline
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class LoginUserViewModel : ViewModel() {
 
@@ -36,6 +35,10 @@ class LoginUserViewModel : ViewModel() {
                     try {
                         val user = GenUsuarioClientOperation().LoginSession(usuario, clave)
                         isLoginSuccessful = (user.CodigoUsuario == usuario)
+                        if(isLoginSuccessful){
+                            //Guardamos el usuario localmente
+                            saveLogin(user)
+                        }
                     } catch (ex: Exception) {
                         err = ex.message.toString()
                     }
@@ -62,11 +65,10 @@ class LoginUserViewModel : ViewModel() {
         _passwordError.value = if (password.isBlank()) "Contraseña es Obligatorio" else null
     }
 
-    fun saveLogin(genUsuario: GenUsuario){
+    suspend fun saveLogin(genUsuario: GenUsuario){
         //convertimos el modelo
         val usuarioEntity = genUsuario.toOffline()
-        UsuarioLocalRepository(IUsuarioLocalDao).InsertUsuarioLocal(usuarioEntity)
-
+//        getUserRepostory.InsertUsuarioLocal(usuarioEntity)
 
 
     }
