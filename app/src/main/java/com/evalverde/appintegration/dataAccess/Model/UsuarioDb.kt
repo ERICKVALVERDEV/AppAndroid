@@ -7,7 +7,8 @@ import com.evalverde.appintegration.onlineClient.model.GenUsuario
 
 @Entity("UsuarioEntity")
 data class UsuarioEntity(
-    @PrimaryKey(true) val Id:Int =0,
+    @PrimaryKey(true)
+    @ColumnInfo(name = "Id") var Id:Int =0,
     @ColumnInfo(name = "IdUsuario") var IdUsuario: Int,
     @ColumnInfo(name = "Identificacion") var Identificacion: Int,
     @ColumnInfo(name = "CodigoUsuario") var CodigoUsuario: String,

@@ -4,18 +4,21 @@ package com.evalverde.appintegration.dataAccess.Repository
 import com.evalverde.appintegration.dataAccess.model.UsuarioEntity
 import javax.inject.Inject
 
-class UsuarioLocalRepository @Inject constructor(private val usuarioLocal: IUsuarioLocalDao) {
+class UsuarioLocalRepository @Inject constructor(): IUsuarioLocalDao {
 
-
-    suspend fun InsertUsuarioLocal(usuarioDb: UsuarioEntity) {
-        usuarioLocal.Insert(usuarioDb)
+    override suspend fun Insert(usuarioEntity: UsuarioEntity) {
+        UsuarioLocalRepository().Insert(usuarioEntity)
     }
 
-    suspend fun getUserCredential(usuario: String, clave: String): UsuarioEntity?{
-        return usuarioLocal.GetUsuarioLogin(usuario,clave)
+    override suspend fun InsertAll(usuarioEntities: List<UsuarioEntity>) {
+        UsuarioLocalRepository().InsertAll(usuarioEntities)
     }
 
-    suspend fun clearUsuarioEntity(): Unit? {
-        return usuarioLocal.DeleteAllUsuarioEntity()
+    override suspend fun GetUsuarioLogin(usuario: String, clave: String): UsuarioEntity {
+        return UsuarioLocalRepository().GetUsuarioLogin(usuario,clave)
+    }
+
+    override suspend fun DeleteAllUsuarioEntity() {
+        return UsuarioLocalRepository().DeleteAllUsuarioEntity()
     }
 }

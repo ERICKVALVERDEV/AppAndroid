@@ -11,12 +11,12 @@ interface IUsuarioLocalDao {
     @Insert
     suspend fun Insert(usuarioEntity: UsuarioEntity)
 
-    @Insert(onConflict =  OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun InsertAll(usuarioEntities: List<UsuarioEntity>)
 
     @Query("SELECT * FROM UsuarioEntity WHERE CodigoUsuario = :usuario AND Clave = :clave")
-    suspend fun GetUsuarioLogin(usuario:String, clave: String): UsuarioEntity?
+    suspend fun GetUsuarioLogin(usuario: String, clave: String): UsuarioEntity
 
-    @Query("DELETE FROM UsuarioEntity ")
-    suspend fun  DeleteAllUsuarioEntity()
+    @Query("DELETE FROM UsuarioEntity")
+    suspend fun DeleteAllUsuarioEntity()
 }

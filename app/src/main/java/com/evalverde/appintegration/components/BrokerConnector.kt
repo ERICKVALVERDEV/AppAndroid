@@ -15,20 +15,20 @@ class BrokerConnector {
         method: String, vararg arguments: Any ): T {
         try {
             val resquest = JsonBrokenBody("", containerKey, targetComponent, method, Gson().toJson(arguments))
-            return DoJsonBrokerOperation("DoBusinessOperation", resquest);
+            return DoJsonBrokerOperation(resquest);
         }catch (ex: Exception) {
             throw ex
         }
     }
 
-    suspend inline fun <reified T> DoJsonBrokerOperation(action: String,request: JsonBrokenBody
+    suspend inline fun <reified T> DoJsonBrokerOperation(request: JsonBrokenBody
     ): T {
         val gson = Gson()
-        var bodyString = ""
+        var bodyString: String
         try {
             val body = GetApiServices().DoBusinessOperation(request)
 
-            if (body != null && body!!.Exception == null) {
+            if (body!!.Exception == null) {
                     bodyString = body.JsonResponse
                 }else{
                     var except = body.Exception
@@ -40,7 +40,5 @@ class BrokerConnector {
             ex.printStackTrace()
             throw ex
         }
-
-        throw Exception("Hubo un problema durante la operación")
     }
 }

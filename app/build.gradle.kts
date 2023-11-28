@@ -2,9 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
-    id("org.jetbrains.kotlin.kapt")
+//    id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
-    id("kotlin-android")
 }
 
 android {
@@ -65,17 +64,18 @@ dependencies {
 
     implementation("androidx.activity:activity-ktx:1.8.1")
 
-    //Dependencia de Sqlite
+    //Dependencia de Sqlite room
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
+
     //Corrutinas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     //Dependencia para la inyeccion de dependencia
-    implementation("com.google.dagger:hilt-android:2.44")
-    ksp("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.46.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.46.1")
 
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -90,6 +90,6 @@ dependencies {
     implementation("com.google.zxing:core:3.4.1")
 }
 // Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}
+//kapt {
+//    correctErrorTypes = true
+//}

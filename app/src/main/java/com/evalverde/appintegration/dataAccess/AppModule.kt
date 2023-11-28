@@ -26,6 +26,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun ProvideUsuarioLocalRepository(iusuarioLocal: IUsuarioLocalDao) =
-        UsuarioLocalRepository(iusuarioLocal)
+    fun ProvideUsuarioLocalRepository(): IUsuarioLocalDao = UsuarioLocalRepository()
 }

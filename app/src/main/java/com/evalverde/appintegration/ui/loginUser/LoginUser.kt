@@ -10,10 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.evalverde.appintegration.databinding.ActivityLoginUserBinding
-import com.evalverde.appintegration.ui.menu.Menu
 import com.evalverde.appintegration.ui.loginUser.model.LoginUserViewModel
+import com.evalverde.appintegration.ui.menu.Menu
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LoginUser : AppCompatActivity() {
     private lateinit var binding: ActivityLoginUserBinding
     private val loginUserViewModel: LoginUserViewModel by viewModels()
