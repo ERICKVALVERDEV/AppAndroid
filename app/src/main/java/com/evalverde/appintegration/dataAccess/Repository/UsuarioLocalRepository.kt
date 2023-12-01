@@ -2,8 +2,9 @@ package com.evalverde.appintegration.dataAccess.Repository
 
     import com.evalverde.appintegration.dataAccess.interfaceDuo.IUsuarioLocalDao
 import com.evalverde.appintegration.dataAccess.model.UsuarioEntity
-import javax.inject.Inject
-
+    import dagger.hilt.android.lifecycle.HiltViewModel
+    import javax.inject.Inject
+@HiltViewModel
 class UsuarioLocalRepository @Inject constructor(): IUsuarioLocalDao {
 
     override suspend fun Insert(usuarioEntity: UsuarioEntity) {

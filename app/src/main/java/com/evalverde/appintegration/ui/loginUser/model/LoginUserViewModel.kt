@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@HiltViewModel
-class LoginUserViewModel @Inject constructor(private val getUserRepostory : UsuarioLocalRepository) : ViewModel() {
+
+class LoginUserViewModel : ViewModel() {
 
     private val _loginResult = MutableLiveData<ResultViewModel>()
     val loginResult: LiveData<ResultViewModel> get() = _loginResult

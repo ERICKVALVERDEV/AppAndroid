@@ -8,10 +8,25 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
+import com.evalverde.appintegration.R
 import com.evalverde.appintegration.databinding.ActivityMenuBinding
+import com.evalverde.appintegration.globalModel.ResultViewModel
+import com.evalverde.appintegration.onlineClient.GenEmpleadoClientOperations
+import com.evalverde.appintegration.onlineClient.GenUsuarioClientOperation
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 class Menu: AppCompatActivity() {
     private lateinit var binding : ActivityMenuBinding
@@ -53,9 +68,8 @@ class Menu: AppCompatActivity() {
     private fun initScanner(){
         IntentIntegrator(this)
         .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        .setPrompt("CredenciaL QR IPSP")
-        .setTorchEnabled(true)
-        .setBeepEnabled(true)
+        .setOrientationLocked(true)
+        .setPrompt("Credencial QR IPSP")
         .initiateScan()
 
     }
@@ -85,11 +99,32 @@ class Menu: AppCompatActivity() {
             if (result.contents == null) {
                 Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show()
             } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    MostrarCredencial(result.contents)
+                }
                 Toast.makeText(this, "El valor escaneado es: " + result.contents, Toast.LENGTH_LONG).show()
             }
-//            finish()
         }else{
             super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun MostrarCredencial(codigoQr: String){
+        lifecycleScope.launch{
+            try {
+                var fechaHora = LocalDate.now()
+                var empleado = GenEmpleadoClientOperations().ConsultarEmpleadoXAcceso("",fechaHora)
+                val fragmentTransaction = supportFragmentManager.beginTransaction()
+                fragmentTransaction.add(R.id.fragmentCredential, CredentialQr())
+                fragmentTransaction.commit()
+            }catch (ex: Exception){
+                withContext(Dispatchers.Main) {
+                    val builder = AlertDialog.Builder(this@Menu)
+                    builder.setTitle("Error")
+                    builder.setMessage(ex.message).show()
+                }
+            }
         }
     }
 }

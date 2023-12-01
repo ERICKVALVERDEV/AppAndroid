@@ -9,12 +9,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
+import com.evalverde.appintegration.components.IsConnectivityNetwork
 import com.evalverde.appintegration.databinding.ActivityLoginUserBinding
 import com.evalverde.appintegration.ui.loginUser.model.LoginUserViewModel
 import com.evalverde.appintegration.ui.menu.Menu
 import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
 class LoginUser : AppCompatActivity() {
     private lateinit var binding: ActivityLoginUserBinding
     private val loginUserViewModel: LoginUserViewModel by viewModels()
@@ -51,9 +50,13 @@ class LoginUser : AppCompatActivity() {
         binding.edtClave.addTextChangedListener { t -> loginUserViewModel.validatePassword(t.toString()) }
 
         binding.loginButton.setOnClickListener {
-            val usuario = binding.edtUsuario.text.toString()
-            val clave = binding.edtClave.text.toString()
-            loginUserViewModel.performLogin(usuario, clave)
+            if(IsConnectivityNetwork(this)){
+                val usuario = binding.edtUsuario.text.toString()
+                val clave = binding.edtClave.text.toString()
+                loginUserViewModel.performLogin(usuario, clave)
+            }else{
+
+            }
         }
 
         binding.ContenidoContrain.setOnTouchListener { _, _ ->
