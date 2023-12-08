@@ -24,6 +24,7 @@ data class GenEmpleado(
     var IdZona: Int,
     var NombreZona: String,
     var CodeEncrypt: String,
-    var QrCode: Boolean
+    var QrCode: Boolean,
+    var ImagenPerfil: String,
 ): Parcelable
 

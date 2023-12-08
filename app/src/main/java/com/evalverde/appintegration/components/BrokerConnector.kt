@@ -19,7 +19,7 @@ class BrokerConnector {
                 .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
                 .create()
             var convertArguments = gson.toJson(arguments)
-//            println("ESTO ENVIA "+convertArguments)
+            println("ESTO ENVIA "+convertArguments)
             val resquest = JsonBrokenBody("", containerKey, targetComponent, method, convertArguments)
             return DoJsonBrokerOperation(resquest);
         }catch (ex: Exception) {
