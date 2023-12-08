@@ -2,16 +2,13 @@ package com.evalverde.appintegration.components
 
 import com.evalverde.appintegration.components.HttpNetwork.Companion.GetApiServices
 import com.evalverde.appintegration.globalModel.JsonBrokenBody
-import com.evalverde.appintegration.globalModel.ResponseBroker
+import com.evalverde.appintegration.globalModel.adapters.DateDeserializer
 import com.evalverde.appintegration.globalModel.adapters.LocalDateAdapter
-
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.google.gson.reflect.TypeToken
 import java.time.LocalDate
+import java.util.Date
 
 class BrokerConnector {
 
@@ -22,7 +19,7 @@ class BrokerConnector {
                 .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
                 .create()
             var convertArguments = gson.toJson(arguments)
-            println("ESTO ENVIA "+convertArguments)
+//            println("ESTO ENVIA "+convertArguments)
             val resquest = JsonBrokenBody("", containerKey, targetComponent, method, convertArguments)
             return DoJsonBrokerOperation(resquest);
         }catch (ex: Exception) {
@@ -32,7 +29,7 @@ class BrokerConnector {
 
     suspend inline fun <reified T> DoJsonBrokerOperation(request: JsonBrokenBody
     ): T {
-        val gson = Gson()
+        val gson = GsonBuilder()
         var bodyString: String
         try {
             val body = GetApiServices().DoBusinessOperation(request)
@@ -43,11 +40,13 @@ class BrokerConnector {
                     var except = body.Exception
                     throw Exception(except.Message)
                 }
-
-            return gson.fromJson(bodyString, T::class.java)
+            val tipo = object : TypeToken<T>() {}.type
+            return gson
+                .registerTypeAdapter(Date::class.java, DateDeserializer())
+                .create()
+                .fromJson(bodyString, tipo)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            println("SE CAYO AQUI")
             throw ex
         }
     }

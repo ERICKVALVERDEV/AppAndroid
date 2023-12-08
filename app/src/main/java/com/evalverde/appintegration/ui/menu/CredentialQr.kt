@@ -2,11 +2,12 @@ package com.evalverde.appintegration.ui.menu
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import com.evalverde.appintegration.R
 import com.evalverde.appintegration.databinding.FragmentCredentialQrBinding
 import com.evalverde.appintegration.onlineClient.model.GenEmpleado
@@ -24,9 +25,10 @@ class CredentialQr : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getParcelable(argEmpleado,GenEmpleado::class.java)
+            println("C.I ${param1?.NumeroIdentificacion}")
+            param1 = it.getParcelable(argEmpleado)
             binding.txtCargo.text= param1?.NombreCargo
-            binding.txtCedula.text= param1?.NumeroIdentificacion
+            binding.txtCedula.text= "C.I ${param1?.NumeroIdentificacion}"
             binding.txtNombreEmpleado.text= param1?.Nombres
             binding.txtDepartamento.text= param1?.NombreDepartamento
         }
@@ -46,7 +48,8 @@ class CredentialQr : Fragment() {
         fun nuevaCredencial(empleado: GenEmpleado?) =
             CredentialQr().apply {
                 arguments = Bundle().apply {
-//                    putParcelable(argEmpleado, empleado)
+                    println("RESULTOADO "+empleado)
+                    putParcelable(argEmpleado, empleado as Parcelable)
                 }
             }
     }

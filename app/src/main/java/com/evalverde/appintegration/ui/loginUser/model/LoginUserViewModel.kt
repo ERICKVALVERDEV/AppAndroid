@@ -5,18 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.evalverde.appintegration.dataAccess.AppDatabase
-import com.evalverde.appintegration.dataAccess.AppDatabase.Companion.db
-import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
 import com.evalverde.appintegration.globalModel.ResultViewModel
-import com.evalverde.appintegration.login.data.LoginRepository
 import com.evalverde.appintegration.onlineClient.GenUsuarioClientOperation
 import com.evalverde.appintegration.onlineClient.model.GenUsuario
 import com.evalverde.appintegration.onlineClient.model.toOffline
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 
 class LoginUserViewModel : ViewModel() {
@@ -39,28 +34,24 @@ class LoginUserViewModel : ViewModel() {
 //                validateUser(usuario)
 //                validatePassword(clave)
                 if (!usuario.isBlank() && !clave.isBlank()) {
-                    var err: String? = null
-                    try {
-                        val user = GenUsuarioClientOperation().LoginSession(usuario, clave)
-                        isLoginSuccessful = (user.CodigoUsuario == usuario)
-                        if(isLoginSuccessful){
-                            //Guardamos el usuario localmente
-                            saveLogin(user)
-                        }
-                    } catch (ex: Exception) {
-                        err = ex.message.toString()
-                        isLoginSuccessful = false
+
+                    val user = GenUsuarioClientOperation().LoginSession(usuario, clave)
+                    isLoginSuccessful = (user.CodigoUsuario == usuario)
+                    if(isLoginSuccessful){
+                        //Guardamos el usuario localmente
+                        saveLogin(user)
                     }
+
                     // Actualizar LiveData en el hilo principal
                     withContext(Dispatchers.Main) {
-                        _loginResult.value = ResultViewModel(isLoginSuccessful, err)
+                        _loginResult.value = ResultViewModel(isLoginSuccessful, null)
                     }
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()
                 // Actualizar LiveData en el hilo principal
                 withContext(Dispatchers.Main) {
-                    _loginResult.value = ResultViewModel(false, ex.message)
+                    _loginResult.value = ResultViewModel(false,null, ex.message)
                 }
             }
         }

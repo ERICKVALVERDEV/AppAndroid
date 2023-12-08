@@ -1,18 +1,15 @@
 package com.evalverde.appintegration.ui.menu
 
-import android.content.pm.PackageManager
-import android.os.Bundle
-import android.os.PersistableBundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Intent
-import android.os.Build
+import android.content.pm.PackageManager
+import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.evalverde.appintegration.R
 import com.evalverde.appintegration.components.DisplayAlert
@@ -37,15 +34,12 @@ class Menu: AppCompatActivity() {
         menuViewModel.menuResult.observe(this, Observer {
             val result = it ?: return@Observer
             if(result.isValid){
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.add(R.id.fragmentCredential, CredentialQr())
-                fragmentTransaction.commit()
                 var response = result.responseObject as ArrayList<GenEmpleado>
-                println("PPPPPPPPPPPPPPPPPPPP2222222"+ response.javaClass.simpleName)
-                var resp = (response as? ArrayList<GenEmpleado>)?.firstOrNull()
-                println("PPPPPPPPPPPPPPPPPPPP2222222333333")
+                var resp = response.firstOrNull()
 
-                CredentialQr.nuevaCredencial(resp)
+                val fragmentTransaction = supportFragmentManager.beginTransaction()
+                fragmentTransaction.add(R.id.fragmentCredential, CredentialQr.nuevaCredencial(resp))
+                fragmentTransaction.commit()
             }else{
                 DisplayAlert(this, "Error"," "+result.errorText).show()
             }

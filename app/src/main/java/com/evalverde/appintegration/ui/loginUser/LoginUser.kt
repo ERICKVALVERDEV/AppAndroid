@@ -11,12 +11,13 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.evalverde.appintegration.components.DisplayAlert
 import com.evalverde.appintegration.components.IsConnectivityNetwork
+import com.evalverde.appintegration.components.LoadingDialog
 import com.evalverde.appintegration.databinding.ActivityLoginUserBinding
 import com.evalverde.appintegration.ui.loginUser.model.LoginUserViewModel
 import com.evalverde.appintegration.ui.menu.Menu
-import dagger.hilt.android.AndroidEntryPoint
 class LoginUser : AppCompatActivity() {
     private lateinit var binding: ActivityLoginUserBinding
+    val loadingDialog = LoadingDialog(this)
     private val loginUserViewModel: LoginUserViewModel by viewModels()
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +39,7 @@ class LoginUser : AppCompatActivity() {
             } else {
                 loginResult.errorText?.let { it1 -> DisplayAlert(this,"Error", it1).show() }
             }
+            loadingDialog.dimissDialog()
         })
 
         loginUserViewModel.userError.observe(
@@ -52,6 +54,7 @@ class LoginUser : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener {
             if(IsConnectivityNetwork(this)){
+                loadingDialog.startLoadingDialog()
                 val usuario = binding.edtUsuario.text.toString()
                 val clave = binding.edtClave.text.toString()
                 loginUserViewModel.performLogin(usuario, clave)
