@@ -8,15 +8,11 @@ import java.util.Date
 
 class GenEmpleadoClientOperations {
     val m_ContainerKey: String = "CapaNegocio"
-    val m_TargetComponent: String = "ICodigosAcceso"
+    val m_TargetComponent: String = "IDepartamento"
 
-    suspend fun ConsultarEmpleadoXAcceso(cedula: String, fecha: LocalDate): GenEmpleado {
-        try {
-            var propertyName = ::ConsultarEmpleadoXAcceso.name
-            return BrokerConnector().DoBusinessOperation(m_ContainerKey,m_TargetComponent,propertyName,cedula,fecha)
-        }catch (ex: Exception){
-            ex.printStackTrace()
-            throw  ex
-        }
+    suspend fun ConsultarEmpleadoXAcceso(cedula: String?, fecha: LocalDate): List<GenEmpleado> {
+        var propertyName = ::ConsultarEmpleadoXAcceso.name
+        return BrokerConnector().DoBusinessOperation(m_ContainerKey,"ICodigosAcceso",propertyName,cedula,fecha)
+
     }
 }

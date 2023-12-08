@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.evalverde.appintegration.dataAccess.AppDatabase
+import com.evalverde.appintegration.dataAccess.AppDatabase.Companion.db
 import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
 import com.evalverde.appintegration.globalModel.ResultViewModel
 import com.evalverde.appintegration.login.data.LoginRepository
@@ -18,7 +20,9 @@ import javax.inject.Inject
 
 
 class LoginUserViewModel : ViewModel() {
-
+    companion object {
+        lateinit var database: AppDatabase
+    }
     private val _loginResult = MutableLiveData<ResultViewModel>()
     val loginResult: LiveData<ResultViewModel> get() = _loginResult
 
@@ -45,6 +49,7 @@ class LoginUserViewModel : ViewModel() {
                         }
                     } catch (ex: Exception) {
                         err = ex.message.toString()
+                        isLoginSuccessful = false
                     }
                     // Actualizar LiveData en el hilo principal
                     withContext(Dispatchers.Main) {
@@ -71,9 +76,8 @@ class LoginUserViewModel : ViewModel() {
 
     suspend fun saveLogin(genUsuario: GenUsuario){
         //convertimos el modelo
-//        val usuarioEntity = genUsuario.toOffline()
-//        getUserRepostory.Insert(usuarioEntity)
-
+        val usuarioEntity = genUsuario.toOffline()
+//        db.iUsuarioLocalDao().Insert(usuarioEntity)
 
     }
 

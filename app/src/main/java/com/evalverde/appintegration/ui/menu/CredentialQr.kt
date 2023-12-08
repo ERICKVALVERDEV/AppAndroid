@@ -1,32 +1,34 @@
 package com.evalverde.appintegration.ui.menu
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.evalverde.appintegration.R
+import com.evalverde.appintegration.databinding.FragmentCredentialQrBinding
+import com.evalverde.appintegration.onlineClient.model.GenEmpleado
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val argEmpleado = "genEmpleado"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CredentialQr.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CredentialQr : Fragment() {
+    private lateinit var binding : FragmentCredentialQrBinding
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var param1: GenEmpleado? = null
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            param1 = it.getParcelable(argEmpleado,GenEmpleado::class.java)
+            binding.txtCargo.text= param1?.NombreCargo
+            binding.txtCedula.text= param1?.NumeroIdentificacion
+            binding.txtNombreEmpleado.text= param1?.Nombres
+            binding.txtDepartamento.text= param1?.NombreDepartamento
         }
     }
 
@@ -39,21 +41,12 @@ class CredentialQr : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CredentialQr.
-         */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun nuevaCredencial(empleado: GenEmpleado?) =
             CredentialQr().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+//                    putParcelable(argEmpleado, empleado)
                 }
             }
     }

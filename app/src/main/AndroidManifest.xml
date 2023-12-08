@@ -40,6 +40,12 @@
             android:name=".MainActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".ui.CaptureActivityPortrait"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

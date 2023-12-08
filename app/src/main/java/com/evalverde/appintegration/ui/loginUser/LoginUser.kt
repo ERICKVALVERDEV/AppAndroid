@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
+import com.evalverde.appintegration.components.DisplayAlert
 import com.evalverde.appintegration.components.IsConnectivityNetwork
 import com.evalverde.appintegration.databinding.ActivityLoginUserBinding
 import com.evalverde.appintegration.ui.loginUser.model.LoginUserViewModel
@@ -29,13 +30,13 @@ class LoginUser : AppCompatActivity() {
         loginUserViewModel.loginResult.observe(this, Observer {
             val loginResult = it ?: return@Observer
 
-            if (loginResult.isValid == true) {
+            if (loginResult.isValid) {
                 Toast.makeText(this,"Usuario logueado.",Toast.LENGTH_SHORT).show()
 
                 var i = Intent(this, Menu::class.java)
                 startActivity(i)
             } else {
-                Toast.makeText(this,loginResult.errorText,Toast.LENGTH_SHORT).show()
+                loginResult.errorText?.let { it1 -> DisplayAlert(this,"Error", it1).show() }
             }
         })
 

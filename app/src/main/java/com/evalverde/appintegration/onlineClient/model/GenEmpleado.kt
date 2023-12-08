@@ -1,4 +1,10 @@
 package com.evalverde.appintegration.onlineClient.model
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.util.Date
+
+@Parcelize
 data class GenEmpleado(
     var IdEmpleado: Int,
     var IdCargo: Int,
@@ -11,12 +17,13 @@ data class GenEmpleado(
     var NombreCargo: String,
     var Extension: String,
     var CorreoElectronico: String,
+    var AbreviaturaDepartamento: String,
+    var ColorDepartamento: String,
     var Agenda: Boolean,
-    var ExtensionInt: Int,
-    var FechaIngreso: String,
+    var FechaIngreso: Date,
     var IdZona: Int,
     var NombreZona: String,
     var CodeEncrypt: String,
     var QrCode: Boolean
-)
+): Parcelable
 
