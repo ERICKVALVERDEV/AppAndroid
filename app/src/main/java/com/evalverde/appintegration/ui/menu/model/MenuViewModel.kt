@@ -6,27 +6,41 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.evalverde.appintegration.dataAccess.Repository.EmpleadoRepository
+import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
 import com.evalverde.appintegration.globalModel.ResultViewModel
 import com.evalverde.appintegration.onlineClient.GenEmpleadoClientOperations
+import com.evalverde.appintegration.onlineClient.model.toOffline
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
-
-class MenuViewModel : ViewModel() {
+import javax.inject.Inject
+@HiltViewModel
+class MenuViewModel @Inject constructor(private val getEmpleadoRepository : EmpleadoRepository)  : ViewModel() {
 
     private val _menuResult = MutableLiveData<ResultViewModel>()
     val menuResult: LiveData<ResultViewModel> get() = _menuResult
+    private val _dataSync = MutableLiveData<ResultViewModel>()
+    val dataSync: LiveData<ResultViewModel> get() =_dataSync
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun sincronizationData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                var empleados =
-                    GenEmpleadoClientOperations().ConsultarEmpleadoXAcceso(null, LocalDate.now())
-                //Aqui va la lógica de guardar offline
+                val empleados = GenEmpleadoClientOperations().ConsultarEmpleadoXAcceso(null, LocalDate.now())
+                if(empleados.any())
+                    getEmpleadoRepository.InsertAll(empleados.toOffline())
+
+                withContext(Dispatchers.Main) {
+                    _dataSync.value = ResultViewModel(true, null,null)
+                }
             } catch (ex: Exception) {
                 println(ex.message)
+                withContext(Dispatchers.Main) {
+                    _dataSync.value = ResultViewModel(false, null,ex.message)
+                }
             }
         }
     }
@@ -44,4 +58,5 @@ class MenuViewModel : ViewModel() {
             }
         }
     }
+
 }

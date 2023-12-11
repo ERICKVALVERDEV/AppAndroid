@@ -13,15 +13,19 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.evalverde.appintegration.R
 import com.evalverde.appintegration.components.DisplayAlert
+import com.evalverde.appintegration.components.LoadingDialog
 import com.evalverde.appintegration.databinding.ActivityMenuBinding
 import com.evalverde.appintegration.onlineClient.model.GenEmpleado
 import com.evalverde.appintegration.ui.CaptureActivityPortrait
 import com.evalverde.appintegration.ui.menu.model.MenuViewModel
 import com.google.zxing.integration.android.IntentIntegrator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class Menu: AppCompatActivity() {
     private lateinit var binding : ActivityMenuBinding
     private val menuViewModel : MenuViewModel by viewModels()
+    val loadingDialog = LoadingDialog(this)
     companion object {
         private const val CAMERA_PERMISSION_REQUEST_CODE = 100
     }
@@ -34,15 +38,28 @@ class Menu: AppCompatActivity() {
         menuViewModel.menuResult.observe(this, Observer {
             val result = it ?: return@Observer
             if(result.isValid){
-                var response = result.responseObject as ArrayList<GenEmpleado>
-                var resp = response.firstOrNull()
-
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.add(R.id.fragmentCredential, CredentialQr.nuevaCredencial(resp))
-                fragmentTransaction.commit()
+                val response = result.responseObject as ArrayList<GenEmpleado>
+                val resp = response.firstOrNull()
+                if(resp != null){
+                    val fragmentTransaction = supportFragmentManager.beginTransaction()
+                    fragmentTransaction.add(R.id.fragmentCredential, CredentialQr.nuevaCredencial(resp))
+                    fragmentTransaction.commit()
+                }else{
+                    DisplayAlert(this,"Mensaje","No existe registro de Código de Acceso").show()
+                    println("No existe registro de Código de Acceso")
+                }
             }else{
                 DisplayAlert(this, "Error"," "+result.errorText).show()
             }
+        })
+        menuViewModel.dataSync.observe(this, Observer {
+            val result = it ?: return@Observer
+            if(result.isValid){
+                DisplayAlert(this,"Mensaje","Datos sincronizados correctamente...").show()
+            }else{
+                DisplayAlert(this,"Mensaje",result.errorText!!).show()
+            }
+            loadingDialog.dimissDialog()
         })
         binding.btnScannerCredentials.setOnClickListener(View.OnClickListener {
             startScanner()
@@ -62,7 +79,8 @@ class Menu: AppCompatActivity() {
         }
 
         binding.floatingButtonExp.setOnClickListener(View.OnClickListener {
-            //Aqui se debe sincronizar los datos
+            loadingDialog.startLoadingDialog()
+            menuViewModel.sincronizationData()
         })
 
     }
@@ -105,6 +123,10 @@ class Menu: AppCompatActivity() {
         }else{
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    fun sincronizarDatos(){
+
     }
 
 }

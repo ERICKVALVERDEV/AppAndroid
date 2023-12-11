@@ -12,34 +12,58 @@ import androidx.lifecycle.Observer
 import com.evalverde.appintegration.components.DisplayAlert
 import com.evalverde.appintegration.components.IsConnectivityNetwork
 import com.evalverde.appintegration.components.LoadingDialog
+import com.evalverde.appintegration.components.SharedPreferencesManager
 import com.evalverde.appintegration.databinding.ActivityLoginUserBinding
+import com.evalverde.appintegration.onlineClient.model.GenUsuario
 import com.evalverde.appintegration.ui.loginUser.model.LoginUserViewModel
 import com.evalverde.appintegration.ui.menu.Menu
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class LoginUser : AppCompatActivity() {
     private lateinit var binding: ActivityLoginUserBinding
     val loadingDialog = LoadingDialog(this)
     private val loginUserViewModel: LoginUserViewModel by viewModels()
+    val userShared ="user"
+    val passwordShared ="pass"
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //Verificamos si el usuario ya fue Logeado
+        val loginMap = SharedPreferencesManager(this).obtenerLoginSingle()
+        val usuario = binding.edtUsuario.text.toString()
+        val clave = binding.edtClave.text.toString()
+        if(loginMap.any() && loginMap[0][userShared] != null && loginMap[0][passwordShared] != null){
+            var i = Intent(this, Menu::class.java)
+            startActivity(i)
+            finish()
+        }
 
-//        loginUserViewModel = ViewModelProvider(this).get(
-//            LoginUserViewModel::class.java
-//        )
+
         loginUserViewModel.loginResult.observe(this, Observer {
-            val loginResult = it ?: return@Observer
+            try {
 
-            if (loginResult.isValid) {
-                Toast.makeText(this,"Usuario logueado.",Toast.LENGTH_SHORT).show()
+                val loginResult = it ?: return@Observer
 
-                var i = Intent(this, Menu::class.java)
-                startActivity(i)
-            } else {
-                loginResult.errorText?.let { it1 -> DisplayAlert(this,"Error", it1).show() }
+                if (loginResult.isValid) {
+                    Toast.makeText(this,"Usuario logueado.",Toast.LENGTH_SHORT).show()
+                    val response = loginResult.responseObject as GenUsuario
+                    val clave = binding.edtClave.text.toString()
+                    var credential = listOf(mapOf(userShared to response.CodigoUsuario, passwordShared to clave))
+                    //Guardamos el login en las preferencias
+                    SharedPreferencesManager(this).saveLogin(credential)
+
+                    var i = Intent(this, Menu::class.java)
+                    startActivity(i)
+                } else {
+                    loginResult.errorText?.let { it1 -> DisplayAlert(this,"Error", it1).show() }
+                }
+            }catch (ex: Exception){DisplayAlert(this,"Error", ex.message!!).show()
+            }finally {
+                loadingDialog.dimissDialog()
             }
-            loadingDialog.dimissDialog()
         })
 
         loginUserViewModel.userError.observe(

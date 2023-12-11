@@ -1,6 +1,7 @@
 package com.evalverde.appintegration.onlineClient.model
 
 import android.os.Parcelable
+import com.evalverde.appintegration.dataAccess.model.EmpleadoEntity
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
@@ -28,3 +29,9 @@ data class GenEmpleado(
     var ImagenPerfil: String,
 ): Parcelable
 
+fun GenEmpleado.toOffline() = EmpleadoEntity(
+    0, IdEmpleado, IdCargo, IdDepartamento, NumeroIdentificacion, Nombres, Apellidos,
+    Activo, NombreDepartamento, NombreCargo, Extension, CorreoElectronico, AbreviaturaDepartamento, ColorDepartamento, Agenda,
+    FechaIngreso, IdZona, NombreZona, CodeEncrypt, QrCode, ImagenPerfil)
+
+fun  List<GenEmpleado>.toOffline(): List<EmpleadoEntity> =  map { it.toOffline() }

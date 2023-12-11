@@ -1,8 +1,6 @@
 package com.evalverde.appintegration.dataAccess
 
 import android.content.Context
-import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
-import com.evalverde.appintegration.dataAccess.interfaceDuo.IUsuarioLocalDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,8 +21,7 @@ object AppModule {
     @Singleton
     @Provides
     fun ProvideUsuarioLocal(db: AppDatabase) = db.iUsuarioLocalDao()
-
     @Singleton
     @Provides
-    fun ProvideUsuarioLocalRepository(): IUsuarioLocalDao = UsuarioLocalRepository()
+    fun ProvideEmpleado(db: AppDatabase) = db.iEmpleadoDao()
 }

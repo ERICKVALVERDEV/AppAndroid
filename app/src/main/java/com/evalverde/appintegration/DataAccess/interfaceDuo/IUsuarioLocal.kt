@@ -17,6 +17,9 @@ interface IUsuarioLocalDao {
     @Query("SELECT * FROM UsuarioEntity WHERE CodigoUsuario = :usuario AND Clave = :clave")
     suspend fun GetUsuarioLogin(usuario: String, clave: String): UsuarioEntity
 
+    @Query("SELECT * FROM UsuarioEntity")
+    suspend fun GetUsuario(): List<UsuarioEntity>
+
     @Query("DELETE FROM UsuarioEntity")
     suspend fun DeleteAllUsuarioEntity()
 }

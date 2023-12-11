@@ -1,7 +1,10 @@
 package com.evalverde.appintegration.components
 
 import com.google.gson.GsonBuilder
+import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -12,6 +15,8 @@ import java.util.concurrent.TimeUnit
 
 val URL_BASE: String = "http://172.16.11.20:9095/"
 lateinit var API_SERVICE:ApiServices
+@Module
+@InstallIn(SingletonComponent::class)
 class HttpNetwork{
     companion object{
         @Provides

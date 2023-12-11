@@ -4,20 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.evalverde.appintegration.dataAccess.AppDatabase
+import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
 import com.evalverde.appintegration.globalModel.ResultViewModel
 import com.evalverde.appintegration.onlineClient.GenUsuarioClientOperation
 import com.evalverde.appintegration.onlineClient.model.GenUsuario
 import com.evalverde.appintegration.onlineClient.model.toOffline
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-
-class LoginUserViewModel : ViewModel() {
-    companion object {
-        lateinit var database: AppDatabase
-    }
+import javax.inject.Inject
+@HiltViewModel
+class LoginUserViewModel @Inject constructor(private val getUsuarioRepository : UsuarioLocalRepository)  : ViewModel() {
     private val _loginResult = MutableLiveData<ResultViewModel>()
     val loginResult: LiveData<ResultViewModel> get() = _loginResult
 
@@ -44,7 +42,7 @@ class LoginUserViewModel : ViewModel() {
 
                     // Actualizar LiveData en el hilo principal
                     withContext(Dispatchers.Main) {
-                        _loginResult.value = ResultViewModel(isLoginSuccessful, null)
+                        _loginResult.value = ResultViewModel(isLoginSuccessful, user,null)
                     }
                 }
             } catch (ex: Exception) {
@@ -68,7 +66,8 @@ class LoginUserViewModel : ViewModel() {
     suspend fun saveLogin(genUsuario: GenUsuario){
         //convertimos el modelo
         val usuarioEntity = genUsuario.toOffline()
-//        db.iUsuarioLocalDao().Insert(usuarioEntity)
+        getUsuarioRepository.Insert(usuarioEntity)
+
 
     }
 

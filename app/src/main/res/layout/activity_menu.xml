@@ -8,24 +8,26 @@
     android:focusableInTouchMode="true"
     android:background="@color/colorFondo">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fragmentCredential"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        tools:ignore="UselessParent">
+        android:layout_height="match_parent" >
 
-        <Button
-            android:id="@+id/btnScannerCredentials"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Escanear Qr"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            tools:ignore="UselessParent">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnScannerCredentials"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Escanear Qr" />
+
+        </LinearLayout>
+    </FrameLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
