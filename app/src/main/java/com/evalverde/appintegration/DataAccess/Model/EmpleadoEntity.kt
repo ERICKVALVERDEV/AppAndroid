@@ -1,14 +1,17 @@
 package com.evalverde.appintegration.dataAccess.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.evalverde.appintegration.dataAccess.Converters
+import kotlinx.parcelize.Parcelize
 import java.util.Date
 
 @Entity("EmpleadoEntity")
 @TypeConverters(Converters::class)
+@Parcelize
 data class EmpleadoEntity(
     @PrimaryKey(true)
     @ColumnInfo(name = "Id") var Id:Int =0,
@@ -31,4 +34,4 @@ data class EmpleadoEntity(
     @ColumnInfo(name = "NombreZona")  var NombreZona: String,
     @ColumnInfo(name = "CodeEncrypt")  var CodeEncrypt: String,
     @ColumnInfo(name = "QrCode")  var QrCode: Boolean,
-    @ColumnInfo(name = "ImagenPerfil")  var ImagenPerfil: String)
+    @ColumnInfo(name = "ImagenPerfil")  var ImagenPerfil: String): Parcelable

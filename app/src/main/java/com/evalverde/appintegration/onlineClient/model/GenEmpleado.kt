@@ -18,7 +18,7 @@ data class GenEmpleado(
     var NombreCargo: String,
     var Extension: String,
     var CorreoElectronico: String,
-    var AbreviaturaDepartamento: String,
+    var AbreviaturaDepartamento: String?= null,
     var ColorDepartamento: String,
     var Agenda: Boolean,
     var FechaIngreso: Date,
@@ -31,7 +31,7 @@ data class GenEmpleado(
 
 fun GenEmpleado.toOffline() = EmpleadoEntity(
     0, IdEmpleado, IdCargo, IdDepartamento, NumeroIdentificacion, Nombres, Apellidos,
-    Activo, NombreDepartamento, NombreCargo, Extension, CorreoElectronico, AbreviaturaDepartamento, ColorDepartamento, Agenda,
+    Activo, NombreDepartamento, NombreCargo, Extension, CorreoElectronico, AbreviaturaDepartamento?:"", ColorDepartamento, Agenda,
     FechaIngreso, IdZona, NombreZona, CodeEncrypt, QrCode, ImagenPerfil)
 
 fun  List<GenEmpleado>.toOffline(): List<EmpleadoEntity> =  map { it.toOffline() }

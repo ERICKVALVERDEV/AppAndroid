@@ -17,6 +17,9 @@ class EmpleadoRepository @Inject constructor(private val iEmpleado: IEmpleadoDuo
     suspend fun GetEmpleado(cedula: String): EmpleadoEntity {
         return iEmpleado.GetEmpleado(cedula)
     }
+    suspend fun GetEmpleadoCodeEncrypt(code: String): EmpleadoEntity {
+        return iEmpleado.GetEmpleadoCodeEncrypt(code)
+    }
     suspend fun GetEmpleados(): List<EmpleadoEntity> {
         return iEmpleado.GetEmpleados()
     }

@@ -8,27 +8,6 @@
     android:focusableInTouchMode="true"
     android:background="@color/colorFondo">
 
-    <FrameLayout
-        android:id="@+id/fragmentCredential"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            tools:ignore="UselessParent">
-
-            <Button
-                android:id="@+id/btnScannerCredentials"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Escanear Qr" />
-
-        </LinearLayout>
-    </FrameLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingButtonExp"
@@ -42,6 +21,78 @@
         android:layout_marginEnd="339dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_pulsar_up_24"
-        android:contentDescription="TODO" />
+        android:visibility="gone"
+        android:contentDescription="" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingButtonExpCerrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="339dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/close_24"
+        android:visibility="visible"
+        android:contentDescription="" />
+
+    <FrameLayout
+        android:id="@+id/fragmentCredential"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            tools:ignore="UselessParent"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <Button
+                android:id="@+id/btnScannerCredentials"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Escanear Qr"
+                android:visibility="visible"
+                android:gravity="center"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:rowCount="2"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtQr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:text=""
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/imgqr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:src="@drawable/scannerqr"
+                    android:background="@color/colorFondo"
+                    android:gravity="center"/>
+
+            </GridLayout>
+
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+
 
 </RelativeLayout>

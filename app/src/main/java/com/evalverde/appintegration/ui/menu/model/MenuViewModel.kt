@@ -10,6 +10,7 @@ import com.evalverde.appintegration.dataAccess.Repository.EmpleadoRepository
 import com.evalverde.appintegration.dataAccess.Repository.UsuarioLocalRepository
 import com.evalverde.appintegration.globalModel.ResultViewModel
 import com.evalverde.appintegration.onlineClient.GenEmpleadoClientOperations
+import com.evalverde.appintegration.onlineClient.model.GenEmpleado
 import com.evalverde.appintegration.onlineClient.model.toOffline
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +30,10 @@ class MenuViewModel @Inject constructor(private val getEmpleadoRepository : Empl
     fun sincronizationData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val empleados = GenEmpleadoClientOperations().ConsultarEmpleadoXAcceso(null, LocalDate.now())
+                //Eliminamos los datos almacenados
+                getEmpleadoRepository.DeleteAllEmpleadoEntity()
+//                val empleados = GenEmpleadoClientOperations().ConsultarEmpleadoXAcceso(null, LocalDate.now())
+                val empleados = GenEmpleadoClientOperations().ObtenerEmpleado(null)
                 if(empleados.any())
                     getEmpleadoRepository.InsertAll(empleados.toOffline())
 
@@ -45,12 +49,12 @@ class MenuViewModel @Inject constructor(private val getEmpleadoRepository : Empl
         }
     }
 
-    fun obtenerEmpleadoData(cedula: String) {
+    fun obtenerEmpleadoData(code: String) {
         viewModelScope.launch(Dispatchers.Main) {
             try {
                 var fechaHoy = LocalDate.now()
                 var empleados = withContext(Dispatchers.IO) {
-                    GenEmpleadoClientOperations().ConsultarEmpleadoXAcceso("0932499635", fechaHoy)
+                    GenEmpleadoClientOperations().ObtenerEmpleadoCodeEncrypt(code)
                 }
                 _menuResult.postValue(ResultViewModel(true, empleados))
             } catch (ex: Exception) {
@@ -58,5 +62,18 @@ class MenuViewModel @Inject constructor(private val getEmpleadoRepository : Empl
             }
         }
     }
+    fun obtenerEmpleadoOnline(code: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            try {
+                var empleados = withContext(Dispatchers.IO) {
+                    GenEmpleadoClientOperations().ObtenerEmpleado(null)
+                }
+                _menuResult.postValue(ResultViewModel(true, empleados))
+            } catch (ex: Exception) {
+                _menuResult.value =ResultViewModel(false,null, ex.message.toString())
+            }
+        }
+    }
+
 
 }

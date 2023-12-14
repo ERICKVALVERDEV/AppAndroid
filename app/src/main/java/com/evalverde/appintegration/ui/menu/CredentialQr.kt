@@ -10,8 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import com.evalverde.appintegration.R
-import com.evalverde.appintegration.databinding.ActivityMenuBinding
 import com.evalverde.appintegration.databinding.FragmentCredentialQrBinding
 import com.evalverde.appintegration.onlineClient.model.GenEmpleado
 import kotlin.io.encoding.Base64
@@ -61,6 +59,13 @@ class CredentialQr : Fragment() {
         }
         return binding.root
     }
+
+    override fun onPause() {
+        super.onPause()
+        val mainActivity = requireActivity() as Menu
+        mainActivity.binding.floatingButtonExp.visibility = View.VISIBLE
+    }
+
 
     companion object {
         // TODO: Rename and change types and number of parameters

@@ -32,4 +32,8 @@ class SharedPreferencesManager(context: Context) {
         }
     }
 
+    fun closeSession(){
+        sharedPreferences.edit().remove(LOGIN_KEY).apply()
+    }
+
 }

@@ -16,6 +16,9 @@ interface IEmpleadoDuo {
     @Query("SELECT * FROM EmpleadoEntity WHERE NumeroIdentificacion = :cedula")
     suspend fun GetEmpleado(cedula: String): EmpleadoEntity
 
+    @Query("SELECT * FROM EmpleadoEntity WHERE CodeEncrypt = :code")
+    suspend fun GetEmpleadoCodeEncrypt(code: String): EmpleadoEntity
+
     @Query("SELECT * FROM EmpleadoEntity")
     suspend fun GetEmpleados(): List<EmpleadoEntity>
 

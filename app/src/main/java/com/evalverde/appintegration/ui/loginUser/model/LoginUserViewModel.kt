@@ -25,7 +25,7 @@ class LoginUserViewModel @Inject constructor(private val getUsuarioRepository : 
     private val _passwordError = MutableLiveData<String>()
     val passwordError: LiveData<String> get() = _passwordError
 
-    fun performLogin(usuario: String, clave: String) {
+    fun performLoginOnline(usuario: String, clave: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 var isLoginSuccessful = false
@@ -39,7 +39,6 @@ class LoginUserViewModel @Inject constructor(private val getUsuarioRepository : 
                         //Guardamos el usuario localmente
                         saveLogin(user)
                     }
-
                     // Actualizar LiveData en el hilo principal
                     withContext(Dispatchers.Main) {
                         _loginResult.value = ResultViewModel(isLoginSuccessful, user,null)
@@ -67,7 +66,6 @@ class LoginUserViewModel @Inject constructor(private val getUsuarioRepository : 
         //convertimos el modelo
         val usuarioEntity = genUsuario.toOffline()
         getUsuarioRepository.Insert(usuarioEntity)
-
 
     }
 
