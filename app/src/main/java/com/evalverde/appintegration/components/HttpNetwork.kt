@@ -13,7 +13,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-val URL_BASE: String = "http://172.16.11.20:9095/"
+//val URL_BASE: String = "http://172.16.11.20:9095/"
+val URL_BASE: String = "http://192.168.8.51:9099/" /*Pruebas BROKER*/
+//val URL_BASE: String = "http://192.168.1.171:8084/" /*PRODUCCION BROKER*/
 lateinit var API_SERVICE:ApiServices
 @Module
 @InstallIn(SingletonComponent::class)

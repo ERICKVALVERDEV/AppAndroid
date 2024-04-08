@@ -63,7 +63,8 @@ class CredentialQr : Fragment() {
     override fun onPause() {
         super.onPause()
         val mainActivity = requireActivity() as Menu
-        mainActivity.binding.floatingButtonExp.visibility = View.VISIBLE
+//        mainActivity.binding.floatingButtonExp.visibility = View.VISIBLE
+        mainActivity.binding.floatingButtonExpCerrar.visibility = View.VISIBLE
     }
 
 

@@ -9,6 +9,12 @@ fun DisplayAlert(context: Context, title: String, message: String): AlertDialog.
     .setTitle(title)
     .setMessage(message)
 }
+fun DisplayAlert(context: Context, title: String, message: String, onDismiss: () -> Unit): AlertDialog.Builder {
+    return AlertDialog.Builder(context)
+    .setTitle(title)
+    .setMessage(message)
+    .setOnDismissListener { onDismiss.invoke() }
+}
 fun DisplayAlert(context: Context, title: String, message: String, positiveButton: String){
     AlertDialog.Builder(context)
         .setTitle(title)

@@ -21,6 +21,7 @@ import com.evalverde.appintegration.components.DisplayAlert
 import com.evalverde.appintegration.components.IsConnectivityNetwork
 import com.evalverde.appintegration.components.LoadingDialog
 import com.evalverde.appintegration.components.SharedPreferencesManager
+import com.evalverde.appintegration.components.SocketConfig
 import com.evalverde.appintegration.dataAccess.model.EmpleadoEntity
 import com.evalverde.appintegration.databinding.ActivityMenuBinding
 import com.evalverde.appintegration.onlineClient.model.GenEmpleado
@@ -29,6 +30,9 @@ import com.evalverde.appintegration.ui.loginUser.LoginUser
 import com.evalverde.appintegration.ui.menu.model.MenuViewModel
 import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class Menu : AppCompatActivity() {
@@ -62,7 +66,8 @@ class Menu : AppCompatActivity() {
                     )
                     fragmentTransaction.addToBackStack(null)
                     fragmentTransaction.commit()
-                    binding.floatingButtonExp.visibility = View.GONE
+//                    binding.floatingButtonExp.visibility = View.GONE
+                    binding.floatingButtonExpCerrar.visibility = View.GONE
                 } else {
                     DisplayAlert(this, "Mensaje", "No existe registro del empleado.").show()
                 }
@@ -109,7 +114,7 @@ class Menu : AppCompatActivity() {
         }
 
         binding.floatingButtonExp.setOnClickListener(View.OnClickListener {
-            loadingDialog.startLoadingDialog()
+            loadingDialog.startLoadingDialog("Sincronizando datos")
             menuViewModel.sincronizationData()
         })
 
@@ -159,7 +164,11 @@ class Menu : AppCompatActivity() {
                 startScanner()
 
             } else {
-                DisplayAlert(this, "Alerta", "Debe tener acceso a la cámara").show()
+                DisplayAlert(this, "Alerta", "Se ha denegado el acceso a la cámara hágalo manualmente...") {
+                    var i = Intent(this, LoginUser::class.java)
+                    startActivity(i)
+                    finish()
+                }.show()
             }
         }
     }
@@ -172,7 +181,7 @@ class Menu : AppCompatActivity() {
                 Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show()
             } else {
                 if(IsConnectivityNetwork(this)){
-                    loadingDialog.startLoadingDialog()
+                    loadingDialog.startLoadingDialog("Cargando credencial")
                     menuViewModel.obtenerEmpleadoData(result.contents)
                 }else{
                     DisplayAlert(this,"Mensaje","Necesita una conexión estable a red.").show()

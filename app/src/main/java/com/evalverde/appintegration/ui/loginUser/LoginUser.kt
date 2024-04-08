@@ -80,7 +80,7 @@ class LoginUser : AppCompatActivity() {
             val usuario = binding.edtUsuario.text.toString()
             val clave = binding.edtClave.text.toString()
             if(IsConnectivityNetwork(this)){
-                loadingDialog.startLoadingDialog()
+                loadingDialog.startLoadingDialog("Verificando usuario")
                 loginUserViewModel.performLoginOnline(usuario, clave)
             }else{
                 DisplayAlert(this,"Mensaje","Necesita una conexión estable a red.").show()
