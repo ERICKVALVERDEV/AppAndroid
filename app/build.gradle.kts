@@ -84,4 +84,9 @@ dependencies {
     //Lector codigoQr
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.zxing:core:3.4.1")
+
+    //Socket.io
+    implementation("io.socket:socket.io-client:1.0.0")
+    implementation("io.socket:engine.io-client:1.0.0")
+
 }
